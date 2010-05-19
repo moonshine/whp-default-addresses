@@ -1,0 +1,36 @@
+<% content_for :head do %>
+  <% if Spree::Version::Minor.to_i >= 9 || Spree::Version::Major.to_i > 0 %>
+    <%= javascript_include_tag states_path, 'addresses' %>
+  <% else %>
+    <script type="text/javascript">var states_path = '<%=states_path%>.js';</script>
+    <%= javascript_include_tag 'addresses' %>
+  <% end %>
+
+  <style type="text/css">
+    .inner > div label{
+      width: 200px;
+      display: block;
+      float: left;
+    }
+  </style>
+<% end %>
+
+<% form_tag({}, {:class => 'addresses'}) do %>
+  <% [:bill_address, :ship_address].each do |address_type| %>
+    <div class="address-edit">
+      <% fields_for address_type do |address_form| %>
+        <% address = instance_variable_get("@#{address_type}") %>
+        <%= render :partial => 'shared/form', :locals => {
+          :address_type => address_type,
+          :address_form => address_form,
+          :address => address
+        } %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="form-buttons">
+    <input type="submit" class="submit primary" value="<%=t("update")%>"/>
+    <%= link_to t(:cancel), :back %>
+  </div>
+<% end %>

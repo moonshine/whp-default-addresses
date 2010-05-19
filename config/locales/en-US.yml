@@ -13,3 +13,4 @@ en-US:
         state: State
         country: Country
   my_addresses: My addresses
+  edit_addresses: "Edit Addresses" 
