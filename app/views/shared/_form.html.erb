@@ -13,19 +13,27 @@
   <div id="<%= address_type %>" <%= visibility_style.to_s %>>
     <% ["firstname", "lastname", "address1", "address2", "country", "state", "city", "zipcode", "phone"].each do |field| %>
       <p id="p-<%= "#{address_type}-#{field}" %>" class="address-form-field">
-        <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
         <% if field == "country" %>
           <% countries = address_type == :bill_address ? @countries : @shipping_countries %>
-          <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="required">*</span>
-          <%= address_form.error_message_on "#{field}_id" %>
+          <% address_form.field_container "#{field}_id" do %>
+            <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
+            <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="required">*</span>
+            <%= address_form.error_message_on "#{field}_id" %>
+          <% end %>
         <% elsif  field == "state" %>
-          <%= address_form.collection_select "#{field}_id", instance_variable_get("@#{field.pluralize}"), :id, :name, {}, :class => field %>
-          <%= address_form.text_field 'state_name', :class => "state_name" -%><span class="required">*</span>
-          <%= address_form.error_message_on "#{field}_id" %>
-          <%= address_form.error_message_on 'state_name' %>
+          <% address_form.field_container "#{field}_id" do %>
+            <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
+            <%= address_form.collection_select "#{field}_id", instance_variable_get("@#{field.pluralize}"), :id, :name, {}, :class => field %><span class="required">*</span>
+            <%= address_form.text_field 'state_name', :class => "state_name" -%>
+            <%= address_form.error_message_on "#{field}_id" %>
+            <%= address_form.error_message_on 'state_name' %>
+          <% end %>
         <% else %>
-          <%= address_form.text_field field, :class => "#{field}" -%><span class="required">*</span>
-          <%= address_form.error_message_on field %>
+          <% address_form.field_container field do %>
+            <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
+            <%= address_form.text_field field %><span class="required">*</span>
+            <%= address_form.error_message_on field %>
+          <% end %>
         <% end %>
       </p>
     <% end %>

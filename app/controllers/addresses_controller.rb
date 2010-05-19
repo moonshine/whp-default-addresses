@@ -3,5 +3,7 @@ class AddressesController < Spree::BaseController
   belongs_to :user
   actions :index, :update
 
+  helper 'admin/base'
+  
   include DefaultAddresses
 end
