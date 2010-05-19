@@ -1,1 +1,1 @@
-<%= render :partial => 'shared/addresses' %>
+<%= render :partial => 'shared/addresses', :locals => {:return_link => (link_to t(:cancel), user_path(@user))} %>
