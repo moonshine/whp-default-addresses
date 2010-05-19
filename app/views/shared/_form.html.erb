@@ -16,15 +16,15 @@
         <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
         <% if field == "country" %>
           <% countries = address_type == :bill_address ? @countries : @shipping_countries %>
-          <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="req">*</span>
+          <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="required">*</span>
           <%= address_form.error_message_on "#{field}_id" %>
         <% elsif  field == "state" %>
           <%= address_form.collection_select "#{field}_id", instance_variable_get("@#{field.pluralize}"), :id, :name, {}, :class => field %>
-          <%= address_form.text_field 'state_name', :class => "required state_name" -%><span class="req">*</span>
+          <%= address_form.text_field 'state_name', :class => "state_name" -%><span class="required">*</span>
           <%= address_form.error_message_on "#{field}_id" %>
           <%= address_form.error_message_on 'state_name' %>
         <% else %>
-          <%= address_form.text_field field, :class => "required #{field}" -%><span class="req">*</span>
+          <%= address_form.text_field field, :class => "#{field}" -%><span class="required">*</span>
           <%= address_form.error_message_on field %>
         <% end %>
       </p>
