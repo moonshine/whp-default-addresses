@@ -23,7 +23,7 @@
         <% elsif  field == "state" %>
           <% address_form.field_container "#{field}_id" do %>
             <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
-            <%= address_form.collection_select "#{field}_id", instance_variable_get("@#{field.pluralize}"), :id, :name, {}, :class => field %>
+            <%= address_form.collection_select "#{field}_id", instance_variable_get("@#{address_type}_#{field.pluralize}"), :id, :name, {}, :class => field %>
             <%= address_form.text_field 'state_name', :class => "state_name" -%><span class="required">*</span>
             <%= address_form.error_message_on "#{field}_id" %>
             <%= address_form.error_message_on 'state_name' %>

@@ -13,4 +13,5 @@ en:
         state: State
         country: Country
   my_addresses: My addresses
-  edit_addresses: "Edit Addresses" 
+  edit_addresses: "Edit Addresses"
+  invalid_ship_to_country: "We do not ship to {{country}} so please select a different 'Bill Address' or 'Ship Address' Country"

@@ -42,16 +42,40 @@ module DefaultAddresses
 
     bstatus = sstatus = nil
     Address.transaction do
+      @bill_address.country = Country.find(params[:bill_address][:country_id])
       bstatus = @bill_address.update_attributes(params[:bill_address])
-      if params[:ship_address][:use_bill_address]
-        @ship_address = @bill_address.clone
-        sstatus = @ship_address.save
+      # Make sure selected bill country is available as a ship to country
+      # if the "Use Billing Address" option is selected
+      country = Country.find(params[:bill_address][:country_id])
+      if params[:ship_address] && params[:ship_address][:use_bill_address] &&
+        !@shipping_countries.include?(country)
+        @bill_address.errors.add_to_base t(:invalid_ship_to_country, :country => country.name.capitalize)
+        raise ActiveRecord::Rollback
       else
-        sstatus = @ship_address.update_attributes(params[:ship_address])
+        # Check if ship same as bill address
+        if params[:ship_address][:use_bill_address]
+          # Delete the ship to address record if it exists
+          @ship_address.destroy if (!@ship_address.id.blank? &&
+            @ship_address.id != @bill_address.id &&
+            Address.exists?(@ship_address.id))
+          # Set the ship address equal to the bill address
+          @ship_address = @bill_address.clone
+          sstatus = true
+        else
+          # Make sure the ship address record exists, if not create one
+          # otherwise update
+          if @ship_address.id.blank? || @ship_address.id == @bill_address.id
+            @ship_address = Address.new(params[:ship_address])
+            sstatus = @ship_address.save
+          else
+            sstatus = @ship_address.update_attributes(params[:ship_address])
+          end
+        end
       end
     end
 
     if bstatus && sstatus
+      # Update the users->addresses relationships
       @user.update_attribute(:bill_address, @bill_address)
       @user.update_attribute(:ship_address, @ship_address)
       return(true)
@@ -70,8 +94,8 @@ module DefaultAddresses
     @shipping_countries = ShippingMethod.all.collect{|method|
       method.zone.country_list
     }.flatten.uniq.sort_by{|item| item.name}
-    default_country = @bill_address.country
-    @states = default_country ? default_country.states.sort : []
+    @bill_address_states = @bill_address.country ? @bill_address.country.states.sort : []
+    @ship_address_states = @ship_address.country ? @ship_address.country.states.sort : []
     @addresses = [@bill_address, @ship_address]
   end
 
