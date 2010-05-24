@@ -11,13 +11,13 @@
   <% end %>
 
   <div id="<%= address_type %>" <%= visibility_style.to_s %>>
-    <% ["firstname", "lastname", "address1", "address2", "country", "state", "city", "zipcode", "phone"].each do |field| %>
+    <% ["firstname", "lastname", "address1", "address2", "city", "state", "zipcode", "country", "phone"].each do |field| %>
       <p id="p-<%= "#{address_type}-#{field}" %>" class="address-form-field">
         <% if field == "country" %>
           <% countries = address_type == :bill_address ? @countries : @shipping_countries %>
           <% address_form.field_container "#{field}_id" do %>
             <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
-            <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="required">*</span>
+            <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><% unless field == "address2" %><span class="required">*</span><% end -%>
             <%= address_form.error_message_on "#{field}_id" %>
           <% end %>
         <% elsif  field == "state" %>
