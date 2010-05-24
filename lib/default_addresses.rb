@@ -49,7 +49,7 @@ module DefaultAddresses
       country = Country.find(params[:bill_address][:country_id])
       if params[:ship_address] && params[:ship_address][:use_bill_address] &&
         !@shipping_countries.include?(country)
-        @bill_address.errors.add_to_base t(:invalid_ship_to_country, :country => country.name.capitalize)
+        @bill_address.errors.add_to_base t(:invalid_ship_to_country, :country => country.name)
         raise ActiveRecord::Rollback
       else
         # Check if ship same as bill address
