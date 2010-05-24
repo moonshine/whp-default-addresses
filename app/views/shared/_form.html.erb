@@ -17,7 +17,7 @@
           <% countries = address_type == :bill_address ? @countries : @shipping_countries %>
           <% address_form.field_container "#{field}_id" do %>
             <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
-            <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><% unless field == "address2" %><span class="required">*</span><% end -%>
+            <%= address_form.collection_select "#{field}_id", countries, :id, :name, {}, {:class => field} %><span class="required">*</span>
             <%= address_form.error_message_on "#{field}_id" %>
           <% end %>
         <% elsif  field == "state" %>
@@ -31,7 +31,7 @@
         <% else %>
           <% address_form.field_container field do %>
             <%= address_form.label field, t(field, :scope => [:activerecord, :attributes, :address]) %>
-            <%= address_form.text_field field %><span class="required">*</span>
+            <%= address_form.text_field field %><% unless field == "address2" %><span class="required">*</span><% end -%>
             <%= address_form.error_message_on field %>
           <% end %>
         <% end %>
