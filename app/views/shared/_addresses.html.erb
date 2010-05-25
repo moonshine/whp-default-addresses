@@ -18,10 +18,13 @@
   </style>
 <% end %>
 
+<% [:bill_address, :ship_address].each do |address_type| %>
+  <%= error_messages_for address_type if address_type == :bill_address ||
+    (address_type == :ship_address && !@ship_address.same_as(@bill_address)) %>
+<% end %>
+
 <% form_tag({}, {:class => 'addresses'}) do %>
   <% [:bill_address, :ship_address].each do |address_type| %>
-    <%= error_messages_for address_type if address_type == :bill_address ||
-      (address_type == :ship_address && !@ship_address.same_as(@bill_address)) %>
     <div class="address-edit">
       <% fields_for address_type do |address_form| %>
         <% address = instance_variable_get("@#{address_type}") %>
