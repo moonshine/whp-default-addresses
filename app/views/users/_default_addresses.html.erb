@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <td><%= t("email") %>:</td>
+    <td>
+      <%= @user.email %>
+    </td>
+  </tr>
+</table>
+<p>
+  <%= link_to t('edit'), edit_object_url %>
+  &nbsp;|&nbsp;
+  <%= link_to t('my_addresses'), user_addresses_path(current_user) %>
+</p>
