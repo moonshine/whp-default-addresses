@@ -3,7 +3,7 @@ class OrderTransactionObserver < ActiveRecord::Observer
 
   # Generic transition callback *after* the transition is performed
   def after_transition(order, transition)
-    if transition.attributes[:event].to_s == "complete"
+    if transition.attributes[:event].to_s == "complete" && order.user
       if order.bill_address.id && order.ship_address.id
         order.user.update_attributes!(
           :bill_address_id => order.bill_address.id,
