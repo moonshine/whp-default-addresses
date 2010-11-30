@@ -1,6 +1,11 @@
-map.resources :users, :has_many => :addresses
-
-# Routes for editing addresses in admin area
-map.namespace :admin do |admin|
-  admin.resources :users, :has_many => :addresses
+Rails.application.routes.draw do
+  resources :users do
+    resources :addresses
+  end
+  # Routes for editing addresses in admin area
+  namespace :admin do |admin|
+    resources :users do
+      resources :addresses
+    end
+  end
 end
