@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    attributes:
+      address:
+        address1: Adresse
+        address2: "Addresse (Fort.)"
+        city: Stadt
+        firstname: Vorname
+        lastname: Nachname
+        phone: Telefon
+        zipcode: PLZ
+        state: Bundesland
+        country: Land
+  my_addresses: "Meine Adressen"
+  edit_addresses: "Adressen editieren"
+  invalid_ship_to_country: "Wir verkaufen nicht nach {{country}}. Bitte wählen sie als 'Rechnungsadresse' oder 'Versandadresse' ein anderes Land"
