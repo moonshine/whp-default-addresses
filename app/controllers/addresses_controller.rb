@@ -1,4 +1,5 @@
 class AddressesController < Spree::BaseController
+  require 'default_addresses'
   resource_controller
   belongs_to :user
   actions :index, :update
