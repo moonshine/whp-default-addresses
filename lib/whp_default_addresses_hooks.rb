@@ -1,4 +1,4 @@
-class DefaultAddressesHooks < Spree::ThemeSupport::HookListener
+class WhpDefaultAddressesHooks < Spree::ThemeSupport::HookListener
   # Add link to edit addresses to my account page
   replace :account_summary, 'users/default_addresses'
 
